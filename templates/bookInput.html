@@ -1,0 +1,170 @@
+<!DOCTYPE html>   
+<html lang="en">   
+<head>   
+<meta charset="utf-8">   
+<title>Book Data</title>   
+<meta name="description" content="Bootstrap.">  
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">   
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>  
+<style>
+body {
+
+background: url("static/images/bj.jpg");
+background-attachment: fixed;
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+}
+.container 			      { 
+  border-spacing: 1; 
+  border-collapse: collapse; 
+  background:white;
+  border-radius:6px;
+  overflow:hidden;
+  max-width:800px; 
+  width:100%;
+  margin:0 auto;
+  position:relative;
+}
+.selected {
+    color: rgb(247, 37, 0);  
+}
+#btn {
+  appearance: button;
+  background-color: #000;
+  background-image: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow: #fff 4px 4px 0 0,#000 4px 4px 0 1px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: ITCAvantGardeStd-Bk,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 5px 10px 0;
+  overflow: visible;
+  padding: 12px 40px;
+  text-align: center;
+  text-transform: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+#btn:focus {
+  text-decoration: none;
+}
+
+#btn:hover {
+  text-decoration: none;
+}
+
+#btn:active {
+  box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+  outline: 0;
+}
+
+#btn:not([disabled]):active {
+  box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+  transform: translate(2px, 2px);
+}
+span{
+    color:rgb(78, 78, 65);
+    text-align:center;
+    font-family: 'Arial';
+    font-weight:bold;
+    background-attachment: fixed;
+    background-color: rgb(236, 222, 27);
+    border-radius: 6px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 20px;
+}
+.title{
+    text-align:center;
+}
+</style>
+<body>  
+<div class="title"><h1><span>Book Recommendation</span> </h1></div>
+<div class="container">
+    <br>
+    <br>
+      <table id="myTable" class="table table-striped table-bordered table-responsive table-hover" >  </table>  
+      <button id="btn" onclick="send()">Submit</button>
+    </div>
+
+</body>  
+<script>
+    var data = {{bookData | safe}};
+        var dataKeys = Object.keys(data);
+        var table = document.getElementById("myTable");
+        console.log(data);
+        var thead = table.createTHead();
+        var tr = document.createElement("tr");
+        for (var i = 0; i < dataKeys.length; i++) {
+            var th = document.createElement("th");
+            th.innerHTML = dataKeys[i];
+            tr.appendChild(th);
+        }
+        thead.appendChild(tr);
+        var tbody = table.createTBody();
+        for (var i = 0; i < data[dataKeys[0]].length; i++) {
+            var tr = document.createElement("tr");
+            for (var j = 0; j < dataKeys.length; j++) {
+                var td = document.createElement("td");
+                td.innerHTML = data[dataKeys[j]][i];
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+
+
+var table = document.getElementById('myTable'),
+selected = table.getElementsByClassName('selected');
+table.onclick = highlight;
+function highlight(e) {
+    var target = e.target;
+    if(target.tagName == 'TD') {
+    if (selected[0]){
+        selected[0].classList.remove('selected');
+    }
+    e.target.parentNode.className = 'selected';
+}
+}
+function send() {
+    try{
+    var selected = table.getElementsByClassName('selected');
+    tableData = selected[0];
+    tableList = [];
+    for (var i = 0; i < tableData.children.length; i++) {
+        tableList.push(tableData.children[i].innerHTML);
+    }
+    console.log(tableList);
+    if (tableList.length == 0) {
+        alert("Please select a row");
+    }
+    else {
+        fetch('/', {method: 'POST',body: JSON.stringify(tableList),})
+        console.log(tableList);
+        window.location.href = '/output';
+    }
+}
+catch(err){
+    alert("Please select a row");
+} 
+}
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
+</script>
+</html>  
