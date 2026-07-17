@@ -1,0 +1,167 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+
+body {
+  width: 100%;
+  height: 100%;
+  background-color:#000;
+  background: url("static/images/bg.jpg");
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+}
+  .container {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10%, 2fr));
+    grid-gap: 8%;
+    margin: 7% ;
+    /* padding: 10% 0; */
+  }
+    .card {
+      position: relative;
+      width: 150%;
+      height: 80%;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 15px;
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5);
+    }
+      .face {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+          h2 {
+            margin: 0;
+            padding: 0;
+          }
+
+          .cSharp {
+            background-color: #fc00ff;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+        
+
+        .face2 {
+          transition: 0.5s;
+        }
+          h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 100%;
+            color: #fff;
+            transition: 0.5s;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+          }
+  
+
+    .card:hover .face.face2{
+      height: 10px;
+      font-size: 0;
+    }
+    
+   .face.face2 {
+      background-image: linear-gradient(
+        40deg,
+        #00fffc 0%,
+        #fc00ff 45%,
+        #fffc00 100%
+      );
+      border-radius: 15px;
+    }
+    .img {
+      width: 99%;
+      height: 99%;
+      object-fit: cover;
+      transform-origin: center;
+      transition: 0.5s;
+      border-radius: 10px;
+          }
+
+  a {
+   text-align: center;
+  }
+          #btn {
+  appearance: button;
+  background-color: #000;
+  background-image: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow: #fff 4px 4px 0 0,#000 4px 4px 0 1px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: ITCAvantGardeStd-Bk,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 5px 10px 0;
+  overflow: visible;
+  padding: 12px 40px;
+  text-align: center;
+  text-transform: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+#btn:focus {
+  text-decoration: none;
+}
+
+#btn:hover {
+  text-decoration: none;
+}
+
+#btn:active {
+  box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+  outline: 0;
+}
+
+#btn:not([disabled]):active {
+  box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+  transform: translate(2px, 2px);
+}
+
+  </style>
+</head>
+<body>
+  <center>
+  <div class="container">
+    {% for book in range(length) %}
+    <div class="card">
+      <div class="face face1">
+          <img class="img" src="https://covers.openlibrary.org/b/isbn/{{processData[book]}}-L.jpg">
+      </div>
+      <div class="face face2">
+        <h2 >{{booksTitle[book]}}</h2>
+      </div>
+    </div>
+    {% endfor %}   
+    <br>
+    <br>
+    <a href="/"> <button id="btn">Home</button></a>
+  </div>
+</center>
+</body>
+</html>
